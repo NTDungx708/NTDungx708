@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập Quản trị — ONE × PIZZA</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { margin: 0; }
+    .shake {
+      animation: shake .4s ease;
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%,60%  { transform: translateX(-8px); }
+      40%,80%  { transform: translateX(8px); }
+    }
+    .login-logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .login-logo span { color: #C4574A; font-style: italic; }
+    .pass-wrapper { position: relative; }
+    .pass-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+
+    <!-- Left visual panel -->
+    <div class="login-visual">
+      <div class="login-visual-text">
+        <div class="login-logo">ONE <span>×</span> PIZZA</div>
+        <p style="color:rgba(255,255,255,.6);font-size:.95rem">Cổng quản trị nội bộ</p>
+        <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px;text-align:left;max-width:260px">
+          <div style="display:flex;gap:10px;align-items:center;color:rgba(255,255,255,.7)">
+            <span>📋</span>
+            <span style="font-size:.9rem">Quản lý đặt bàn</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;color:rgba(255,255,255,.7)">
+            <span>🔄</span>
+            <span style="font-size:.9rem">Cập nhật trạng thái</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;color:rgba(255,255,255,.7)">
+            <span>📊</span>
+            <span style="font-size:.9rem">Thống kê nhanh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right login box -->
+    <div class="login-box">
+      <div class="login-inner">
+        <h2>Đăng nhập</h2>
+        <p>Truy cập trang quản trị One x Pizza.</p>
+
+        <div class="alert alert-error" id="login-error" role="alert">
+          <span>⚠️</span>
+          <span>Tên đăng nhập hoặc mật khẩu không đúng. Thử lại.</span>
+        </div>
+
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="username">Tên đăng nhập</label>
+            <input type="text" class="form-control" id="username"
+                   name="username" placeholder="admin"
+                   autocomplete="username" required autofocus>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Mật khẩu</label>
+            <div class="pass-wrapper">
+              <input type="password" class="form-control" id="password"
+                     name="password" placeholder="••••••••••"
+                     autocomplete="current-password" required>
+              <button type="button" class="pass-toggle" id="pass-toggle"
+                      aria-label="Hiện/ẩn mật khẩu" title="Hiện/ẩn mật khẩu">👁️</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" id="login-btn"
+                  style="width:100%;justify-content:center;margin-top:8px">
+            <span id="login-text">Đăng nhập</span>
+            <span id="login-loading" style="display:none">⏳ Đang kiểm tra…</span>
+          </button>
+        </form>
+
+        <p style="text-align:center;margin-top:24px;font-size:.8rem;color:var(--text-muted)">
+          Chỉ dành cho nhân viên và quản trị viên.<br>
+          <a href="../index.html" style="color:var(--red)">← Về trang chủ</a>
+        </p>
+
+        <!-- Hướng dẫn bảo mật -->
+        <div style="background:var(--cream);border-radius:var(--radius-md);padding:12px 16px;margin-top:16px;font-size:.8rem;color:var(--text-muted);border:1px dashed var(--border)">
+          🔒 <strong>Xác thực máy chủ:</strong> Mật khẩu được mã hóa an toàn qua thuật toán Bcrypt tại backend PHP &amp; MySQL.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+      // Kiểm tra phiên đăng nhập với máy chủ
+      if (adminIsLoggedIn()) {
+        const isValid = await apiAdminVerifySession();
+        if (isValid) {
+          location.href = 'dashboard.html';
+          return;
+        } else {
+          adminClearSession();
+        }
+      }
+
+      const form       = document.getElementById('login-form');
+      const errEl      = document.getElementById('login-error');
+      const passEl     = document.getElementById('password');
+      const passToggle = document.getElementById('pass-toggle');
+      const loginBtn   = document.getElementById('login-btn');
+
+      // Hiện / ẩn mật khẩu
+      passToggle.addEventListener('click', function () {
+        const show = passEl.type === 'password';
+        passEl.type = show ? 'text' : 'password';
+        passToggle.textContent = show ? '🙈' : '👁️';
+      });
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = passEl.value;
+
+        if (!username || !password) {
+          errEl.querySelector('span:last-child').textContent = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.';
+          errEl.classList.add('show');
+          return;
+        }
+
+        loginBtn.disabled = true;
+        document.getElementById('login-text').style.display = 'none';
+        document.getElementById('login-loading').style.display = '';
+        errEl.classList.remove('show');
+
+        try {
+          await apiAdminLogin(username, password);
+          location.href = 'dashboard.html';
+        } catch (error) {
+          console.error('Login error:', error);
+          errEl.querySelector('span:last-child').textContent = error.message || 'Tên đăng nhập hoặc mật khẩu không đúng.';
+          errEl.classList.add('show');
+          form.classList.add('shake');
+          setTimeout(() => form.classList.remove('shake'), 400);
+
+          loginBtn.disabled = false;
+          document.getElementById('login-text').style.display = '';
+          document.getElementById('login-loading').style.display = 'none';
+          passEl.value = '';
+          passEl.focus();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

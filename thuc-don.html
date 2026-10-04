@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thực đơn — ONE × PIZZA</title>
+  <meta name="description" content="Khám phá thực đơn One x Pizza: pizza thủ công, món kèm và đồ uống được làm từ nguyên liệu tươi ngon nhất. Lọc theo danh mục và tìm kiếm dễ dàng.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      transition: all .3s ease;
+    }
+    @media (max-width: 1024px) { .menu-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .menu-grid { grid-template-columns: 1fr; } }
+    .menu-card { animation: fadeCard .4s ease both; }
+    @keyframes fadeCard {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 600px) { .filter-bar { flex-direction: column; align-items: stretch; } }
+    .count-label {
+      font-size: .85rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+    @media (max-width: 600px) { .count-label { margin-left: 0; } }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <main class="page-main">
+
+    <!-- ═══ PAGE HERO ══════════════════════════════════════ -->
+    <section class="page-hero">
+      <div class="container">
+        <div class="fade-up">
+          <span class="section-label" style="color:rgba(255,255,255,.45)">Thực đơn</span>
+          <h1 class="display-2" style="color:var(--white);margin-top:8px">Thực đơn của chúng tôi</h1>
+          <p>Pizza thủ công, món kèm và đồ uống — tất cả làm từ nguyên liệu tươi ngon nhất.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ MENU SECTION ═══════════════════════════════════ -->
+    <section class="section">
+      <div class="container">
+
+        <!-- Filter + Search bar -->
+        <div class="filter-bar" role="group" aria-label="Lọc thực đơn">
+          <div class="filter-tabs" id="category-tabs" role="tablist" style="margin-bottom:0">
+            <button class="filter-tab active" data-cat="0" role="tab" aria-selected="true" id="tab-all">
+              Tất cả
+            </button>
+          </div>
+
+          <div class="search-box" style="max-width:280px;margin-bottom:0" role="search">
+            <input type="search" id="menu-search" placeholder="Tìm món ăn…" aria-label="Tìm kiếm món ăn"
+                   autocomplete="off">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+          </div>
+
+          <span class="count-label" id="result-count" aria-live="polite"></span>
+        </div>
+
+        <!-- Grid -->
+        <div class="menu-grid" id="menu-grid" role="list">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Empty state -->
+        <div class="empty-state" id="empty-state" role="status" aria-live="polite">
+          <div class="empty-icon">🍽️</div>
+          <h3 style="margin-bottom:8px">Không tìm thấy món phù hợp</h3>
+          <p>Thử tìm kiếm với từ khóa khác hoặc chọn danh mục khác.</p>
+          <button class="btn btn-outline" style="margin-top:20px" onclick="resetFilter()" id="reset-filter-btn">
+            Xem tất cả món
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══ BOOK CTA ════════════════════════════════════════ -->
+    <section class="section--sm" style="background:var(--dark);text-align:center">
+      <div class="container fade-up">
+        <h2 style="color:var(--white);margin-bottom:12px">Đã chọn được món yêu thích?</h2>
+        <p style="color:rgba(255,255,255,.5);margin-bottom:28px">
+          Đặt bàn ngay để đảm bảo chỗ ngồi và trải nghiệm trọn vẹn nhất.
+        </p>
+        <a href="dat-ban.html" class="btn btn-primary btn-lg" id="menu-book-cta">
+          📅 Đặt bàn ngay
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ MODAL CHI TIẾT MÓN ═══════════════════════════════ -->
+  <div class="modal-overlay" id="item-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal" id="modal-box">
+      <div class="modal-img-wrap">
+        <div class="modal-img" id="modal-img">
+          <img id="modal-image" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover">
+          <span id="modal-emoji" style="font-size:5rem"></span>
+        </div>
+        <button class="modal-close" id="modal-close" aria-label="Đóng chi tiết món">✕</button>
+      </div>
+      <div class="modal-body">
+        <span class="menu-category-tag" id="modal-cat"></span>
+        <h2 class="modal-title" id="modal-title" style="margin-top:6px"></h2>
+        <div class="modal-price" id="modal-price"></div>
+        <p class="modal-desc" id="modal-desc"></p>
+        <div class="modal-ingredients-label">Thành phần</div>
+        <div class="modal-ingredients" id="modal-ingredients"></div>
+        <a href="dat-ban.html" class="btn btn-primary" style="width:100%;justify-content:center" id="modal-book-btn">
+          📅 Đặt bàn để thưởng thức
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    let currentCat = 0;
+    let currentSearch = '';
+
+    // ── Build category tabs ────────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+      const tabsEl = document.getElementById('category-tabs');
+      CATEGORIES.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-tab';
+        btn.dataset.cat = cat.id;
+        btn.textContent = `${cat.icon} ${cat.name}`;
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', 'false');
+        btn.id = `tab-${cat.slug}`;
+        btn.addEventListener('click', () => setCategory(cat.id));
+        tabsEl.appendChild(btn);
+      });
+
+      renderMenu();
+
+      // Search
+      const searchEl = document.getElementById('menu-search');
+      let debounce;
+      searchEl.addEventListener('input', function () {
+        clearTimeout(debounce);
+        debounce = setTimeout(() => {
+          currentSearch = this.value;
+          renderMenu();
+        }, 280);
+      });
+    });
+
+    function setCategory(catId) {
+      currentCat = catId;
+      currentSearch = '';
+      document.getElementById('menu-search').value = '';
+      document.querySelectorAll('.filter-tab').forEach(t => {
+        const active = parseInt(t.dataset.cat) === catId;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active);
+      });
+      renderMenu();
+    }
+
+    function resetFilter() {
+      setCategory(0);
+    }
+
+    function renderMenu() {
+      let items;
+      if (currentSearch.trim()) {
+        items = searchMenu(currentSearch);
+        if (currentCat) items = items.filter(i => i.categoryId === currentCat);
+      } else {
+        items = getMenuByCategory(currentCat || null);
+      }
+
+      const grid = document.getElementById('menu-grid');
+      const empty = document.getElementById('empty-state');
+      const countEl = document.getElementById('result-count');
+
+      if (!items.length) {
+        grid.innerHTML = '';
+        empty.classList.add('show');
+        countEl.textContent = '0 món';
+        return;
+      }
+
+      empty.classList.remove('show');
+      countEl.textContent = `${items.length} món`;
+
+      grid.innerHTML = items.map((item, i) => {
+        const cat = getCategoryById(item.categoryId);
+        return `
+          <article class="card menu-card" role="listitem"
+                   style="animation-delay:${i * 0.06}s"
+                   onclick="openModal(${item.id})"
+                   tabindex="0"
+                   onkeydown="if(event.key==='Enter'||event.key===' ')openModal(${item.id})"
+                   aria-label="${item.name} — ${formatPrice(item.price)}">
+            ${item.tag ? `<span class="menu-badge">${item.tag}</span>` : ''}
+            <div class="card-img">
+              <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+              <span style="display:none;font-size:4rem">${item.emoji}</span>
+            </div>
+            <div class="card-body">
+              <span class="menu-category-tag">${cat ? cat.icon + ' ' + cat.name : ''}</span>
+              <h3 class="card-title">${item.name}</h3>
+              <p class="card-desc">${item.description.substring(0, 90)}…</p>
+              <div class="menu-card-footer">
+                <span class="card-price">${formatPrice(item.price)}</span>
+                <span style="color:var(--red);font-size:.85rem;font-weight:600">Xem chi tiết</span>
+              </div>
+            </div>
+          </article>`;
+      }).join('');
+    }
+
+    // ── Modal ──────────────────────────────────────────
+    function openModal(itemId) {
+      const item = MENU_ITEMS.find(i => i.id === itemId);
+      if (!item) return;
+      const cat = getCategoryById(item.categoryId);
+
+      const modalImg = document.getElementById('modal-image');
+      const modalEmoji = document.getElementById('modal-emoji');
+      if (item.image) {
+        modalImg.src = item.image;
+        modalImg.alt = item.name;
+        modalImg.style.display = 'block';
+        modalEmoji.style.display = 'none';
+        modalImg.onerror = function() {
+          modalImg.style.display = 'none';
+          modalEmoji.style.display = 'block';
+        };
+      } else {
+        modalImg.style.display = 'none';
+        modalEmoji.style.display = 'block';
+      }
+      modalEmoji.textContent = item.emoji;
+      document.getElementById('modal-cat').textContent = cat ? cat.icon + ' ' + cat.name : '';
+      document.getElementById('modal-title').textContent = item.name;
+      document.getElementById('modal-price').textContent = formatPrice(item.price);
+      document.getElementById('modal-desc').textContent = item.description;
+      document.getElementById('modal-ingredients').textContent = item.ingredients;
+
+      const overlay = document.getElementById('item-modal');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('modal-close').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('item-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('item-modal').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

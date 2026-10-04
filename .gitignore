@@ -1,0 +1,7 @@
+# Cấu hình chứa mật khẩu MySQL thật — không đưa lên GitHub
+backend/config.local.php
+# Dữ liệu sinh ra khi chạy
+backend/db/installed.lock
+backend/db/*.sqlite
+# Gói upload
+dist/

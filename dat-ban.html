@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt bàn — ONE × PIZZA</title>
+  <meta name="description" content="Đặt bàn tại One x Pizza — điền thông tin, nhận mã xác nhận ngay. Đơn giản, nhanh chóng, không cần tài khoản.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .booking-layout { grid-template-columns: 1fr; }
+      .booking-sidebar { order: -1; }
+    }
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .time-btn {
+      padding: 10px 8px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--white);
+      color: var(--text);
+      transition: all var(--transition);
+      text-align: center;
+    }
+    .time-btn:hover { border-color: var(--red); color: var(--red); }
+    .time-btn.selected { background: var(--red); border-color: var(--red); color: var(--white); }
+    .time-btn:focus { outline: 2px solid var(--red); outline-offset: 2px; }
+    @media (max-width: 600px) { .time-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .party-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .party-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--white);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      line-height: 1;
+    }
+    .party-btn:hover { border-color: var(--red); color: var(--red); }
+    .party-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      min-width: 36px;
+      text-align: center;
+      color: var(--dark);
+    }
+
+    .sidebar-info {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .sidebar-info h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .sidebar-row:last-child { margin-bottom: 0; }
+    .sidebar-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(165,64,48,.08);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sidebar-row p { font-size: .9rem; color: var(--text-muted); line-height: 1.5; }
+    .sidebar-row strong { display: block; font-size: .85rem; color: var(--dark); font-weight: 600; margin-bottom: 2px; }
+
+    .notice-box {
+      background: rgba(165,64,48,.05);
+      border: 1px solid rgba(165,64,48,.15);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+    .notice-box strong { color: var(--red); }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <main class="page-main">
+
+    <!-- ═══ PAGE HERO ══════════════════════════════════════ -->
+    <section class="page-hero">
+      <div class="container">
+        <div class="fade-up">
+          <span class="section-label" style="color:rgba(255,255,255,.45)">Đặt bàn</span>
+          <h1 class="display-2" style="color:var(--white);margin-top:8px">Đặt bàn tại One x Pizza</h1>
+          <p>Chọn ngày, giờ và số khách — chúng tôi sẽ chuẩn bị bàn tốt nhất cho bạn.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ BOOKING FORM ═══════════════════════════════════ -->
+    <section class="section">
+      <div class="container">
+        <div class="booking-layout">
+
+          <!-- Left: Form -->
+          <div>
+            <!-- Form -->
+            <div class="form-card" id="booking-form-card">
+              <h2 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:24px">
+                Thông tin đặt bàn
+              </h2>
+
+              <!-- Success Alert (hidden) -->
+              <div class="reservation-success" id="res-success">
+                <div class="res-icon">📨</div>
+                <h2 style="font-family:var(--font-display);font-size:1.8rem;margin-bottom:8px">
+                  Yêu cầu đặt bàn đã gửi tới nhà hàng!
+                </h2>
+                <div style="margin: 10px 0;">
+                  <span class="badge badge-pending" style="font-size:0.95rem;padding:6px 16px;display:inline-block;border-radius:20px;background:#fef3c7;color:#92400e;font-weight:600">
+                    ⏳ Trạng thái hiện tại: Chờ nhà hàng duyệt
+                  </span>
+                </div>
+                <p style="color:var(--text-muted);margin-bottom:12px">Mã đặt bàn của bạn:</p>
+                <div class="res-code" id="res-code"></div>
+                <div class="res-note" style="background:rgba(246,240,230,.6);border:1px dashed var(--border);border-radius:8px;padding:16px;margin:16px auto;max-width:520px;text-align:left;font-size:0.88rem;line-height:1.6">
+                  <p style="margin:0 0 8px 0">📌 <strong>Quy trình xác nhận:</strong></p>
+                  <ul style="margin:0;padding-left:20px;color:var(--text-muted)">
+                    <li>Yêu cầu của bạn đã được lưu vào hệ thống máy chủ của <strong>One x Pizza</strong>.</li>
+                    <li>Đội ngũ nhân viên sẽ kiểm tra sơ đồ bàn và <strong>chủ động gọi điện thoại</strong> để xác nhận số lượng bàn và thời gian đến.</li>
+                    <li><strong style="color:var(--red)">Lưu ý:</strong> Bàn của bạn <em>chưa được giữ chỗ chính thức</em> cho đến khi nhân viên nhà hàng hoàn tất liên hệ và chuyển trạng thái sang <strong>Đã xác nhận</strong>.</li>
+                  </ul>
+                </div>
+                <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+                  <button class="btn btn-outline" onclick="resetForm()" id="book-again-btn">📅 Đặt thêm bàn khác</button>
+                  <a href="thuc-don.html" class="btn btn-primary" id="view-menu-btn">🍕 Xem thực đơn món ăn</a>
+                </div>
+              </div>
+
+              <!-- Form content -->
+              <form id="booking-form" novalidate>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="customer-name">
+                      Họ và tên <span class="req">*</span>
+                    </label>
+                    <input type="text" class="form-control" id="customer-name"
+                           name="customerName" placeholder="Nguyễn Văn A"
+                           autocomplete="name" required>
+                    <span class="form-error" id="err-name">Vui lòng nhập họ tên.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="customer-phone">
+                      Số điện thoại <span class="req">*</span>
+                    </label>
+                    <input type="tel" class="form-control" id="customer-phone"
+                           name="phone" placeholder="0912 345 678"
+                           autocomplete="tel" required>
+                    <span class="form-error" id="err-phone">SĐT phải có 10 chữ số.</span>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="booking-date">
+                      Ngày đặt bàn <span class="req">*</span>
+                    </label>
+                    <input type="date" class="form-control" id="booking-date"
+                           name="bookingDate" required>
+                    <span class="form-error" id="err-date">Vui lòng chọn ngày hợp lệ (không phải quá khứ).</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="party-input">
+                      Số khách <span class="req">*</span>
+                    </label>
+                    <div class="party-selector">
+                      <button type="button" class="party-btn" id="party-minus" aria-label="Giảm số khách">−</button>
+                      <span class="party-num" id="party-display">2</span>
+                      <button type="button" class="party-btn" id="party-plus" aria-label="Tăng số khách">+</button>
+                      <span style="font-size:.875rem;color:var(--text-muted)">khách</span>
+                    </div>
+                    <input type="hidden" id="party-input" name="partySize" value="2">
+                    <span class="form-error" id="err-party">Số khách phải lớn hơn 0.</span>
+                  </div>
+                </div>
+
+                <!-- Time selection -->
+                <div class="form-group">
+                  <label class="form-label">
+                    Giờ đến <span class="req">*</span>
+                  </label>
+                  <div class="time-grid" id="time-grid" role="group" aria-label="Chọn giờ đến">
+                    <!-- Rendered by JS -->
+                  </div>
+                  <input type="hidden" id="booking-time" name="bookingTime" required>
+                  <span class="form-error" id="err-time">Vui lòng chọn giờ đến.</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="booking-note">
+                    Ghi chú (tùy chọn)
+                  </label>
+                  <textarea class="form-control" id="booking-note" name="note"
+                            placeholder="Ví dụ: Bàn gần cửa sổ, dịp sinh nhật, dị ứng thực phẩm…"
+                            rows="3"></textarea>
+                </div>
+
+                <div class="alert alert-error" id="form-error-global">
+                  <span>⚠️</span>
+                  <span id="form-error-msg">Vui lòng kiểm tra lại các trường bắt buộc.</span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" id="submit-btn"
+                        style="width:100%;justify-content:center">
+                  <span id="submit-text">📅 Gửi yêu cầu đặt bàn</span>
+                  <span id="submit-loading" style="display:none">⏳ Đang xử lý…</span>
+                </button>
+
+                <p style="font-size:.8rem;color:var(--text-muted);margin-top:12px;text-align:center">
+                  Thông tin của bạn chỉ được dùng để xác nhận đặt bàn, không chia sẻ bên ngoài.
+                </p>
+              </form>
+            </div>
+          </div>
+
+          <!-- Right: Sidebar -->
+          <aside class="booking-sidebar">
+            <div class="sidebar-info" style="overflow:hidden;padding:0">
+              <img src="images/space/restaurant-interior.jpg" alt="Không gian nhà hàng One x Pizza" style="width:100%;height:180px;object-fit:cover">
+              <div style="padding:28px">
+                <h3>📋 Thông tin nhà hàng</h3>
+              <div class="sidebar-row">
+                <div class="sidebar-icon">📍</div>
+                <div>
+                  <strong>Địa chỉ</strong>
+                  <p>Số 79 đường Hồ Tùng Mậu, thành phố Hà Nội<br>(Khu vực Cầu Giấy / Mai Dịch cũ)</p>
+                </div>
+              </div>
+              <div class="sidebar-row">
+                <div class="sidebar-icon">🕐</div>
+                <div>
+                  <strong>Giờ mở cửa</strong>
+                  <p>Thứ 2–6: 10:00–22:00</p>
+                  <p>T7–CN: 09:00–22:30</p>
+                </div>
+              </div>
+              <div class="sidebar-row">
+                <div class="sidebar-icon">📞</div>
+                <div>
+                  <strong>Điện thoại</strong>
+                  <p><a href="tel:0869564200" style="color:var(--red)">0869564200</a></p>
+                </div>
+              </div>
+              <div class="sidebar-row">
+                <div class="sidebar-icon">📧</div>
+                <div>
+                  <strong>Email</strong>
+                  <p><a href="mailto:79hotungmau@gmail.com" style="color:var(--red)">79hotungmau@gmail.com</a></p>
+                </div>
+              </div>
+
+              <div class="notice-box">
+                <strong>⚠️ Lưu ý quan trọng:</strong><br>
+                Đây là yêu cầu đặt chỗ, <strong>chưa phải xác nhận cuối cùng</strong>.
+                Nhà hàng sẽ liên hệ xác nhận trong vòng 2 giờ làm việc.
+                Vui lòng lưu mã đặt bàn nhận được.
+              </div>
+              </div>
+            </div>
+
+            <div class="sidebar-info" style="margin-top:20px">
+              <h3>❓ Câu hỏi thường gặp</h3>
+              <details style="margin-bottom:12px">
+                <summary style="cursor:pointer;font-size:.9rem;font-weight:600;color:var(--dark)">
+                  Có thể hủy đặt bàn không?
+                </summary>
+                <p style="font-size:.85rem;color:var(--text-muted);margin-top:8px;line-height:1.6">
+                  Có, vui lòng liên hệ qua điện thoại hoặc email ít nhất 2 giờ trước giờ đặt.
+                </p>
+              </details>
+              <details style="margin-bottom:12px">
+                <summary style="cursor:pointer;font-size:.9rem;font-weight:600;color:var(--dark)">
+                  Nhóm lớn có cần đặt trước không?
+                </summary>
+                <p style="font-size:.85rem;color:var(--text-muted);margin-top:8px;line-height:1.6">
+                  Nhóm từ 8 người trở lên nên đặt trước ít nhất 24 giờ để chúng tôi chuẩn bị tốt nhất.
+                </p>
+              </details>
+              <details>
+                <summary style="cursor:pointer;font-size:.9rem;font-weight:600;color:var(--dark)">
+                  Có phụ thu phòng riêng không?
+                </summary>
+                <p style="font-size:.85rem;color:var(--text-muted);margin-top:8px;line-height:1.6">
+                  Hiện chúng tôi chưa có phòng riêng, toàn bộ là không gian chung ấm cúng.
+                </p>
+              </details>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    const AVAILABLE_TIMES = [
+      '10:00','11:00','11:30','12:00','12:30','13:00',
+      '17:00','17:30','18:00','18:30','19:00','19:30',
+      '20:00','20:30','21:00'
+    ];
+
+    let partySize = 2;
+    let selectedTime = '';
+    let submitting = false;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Set min date
+      const dateEl = document.getElementById('booking-date');
+      const today = new Date().toISOString().split('T')[0];
+      dateEl.min = today;
+
+      // Render time grid
+      const tGrid = document.getElementById('time-grid');
+      AVAILABLE_TIMES.forEach(t => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'time-btn';
+        btn.textContent = t;
+        btn.setAttribute('aria-label', `Chọn giờ ${t}`);
+        btn.addEventListener('click', () => selectTime(t, btn));
+        tGrid.appendChild(btn);
+      });
+
+      // Party size controls
+      document.getElementById('party-minus').addEventListener('click', () => {
+        if (partySize > 1) { partySize--; updateParty(); }
+      });
+      document.getElementById('party-plus').addEventListener('click', () => {
+        if (partySize < 30) { partySize++; updateParty(); }
+      });
+
+      // Form submit
+      document.getElementById('booking-form').addEventListener('submit', handleSubmit);
+    });
+
+    function updateParty() {
+      document.getElementById('party-display').textContent = partySize;
+      document.getElementById('party-input').value = partySize;
+    }
+
+    function selectTime(t, btn) {
+      selectedTime = t;
+      document.getElementById('booking-time').value = t;
+      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      hideError('err-time');
+    }
+
+    function showError(id, show = true) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('show', show);
+      const input = document.getElementById(id.replace('err-', '').replace('name','customer-name').replace('phone','customer-phone').replace('date','booking-date').replace('time','booking-time').replace('party','party-input'));
+      if (input) input.classList.toggle('error', show);
+    }
+
+    function hideError(id) { showError(id, false); }
+
+    function validate() {
+      let ok = true;
+      const name = document.getElementById('customer-name').value.trim();
+      const phone = document.getElementById('customer-phone').value.trim();
+      const date  = document.getElementById('booking-date').value;
+      const today = new Date().toISOString().split('T')[0];
+
+      if (!name) { showError('err-name'); ok = false; }
+      else hideError('err-name');
+
+      const phoneClean = phone.replace(/\s/g, '');
+      if (!/^0\d{9}$/.test(phoneClean)) { showError('err-phone'); ok = false; }
+      else hideError('err-phone');
+
+      if (!date || date < today) { showError('err-date'); ok = false; }
+      else hideError('err-date');
+
+      if (!selectedTime) { showError('err-time'); ok = false; }
+      else hideError('err-time');
+
+      return ok;
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      if (submitting) return;
+      if (!validate()) {
+        document.getElementById('form-error-global').classList.add('show');
+        return;
+      }
+      document.getElementById('form-error-global').classList.remove('show');
+
+      // Anti-double-submit
+      submitting = true;
+      document.getElementById('submit-text').style.display = 'none';
+      document.getElementById('submit-loading').style.display = '';
+      document.getElementById('submit-btn').disabled = true;
+
+      const data = {
+        customerName: document.getElementById('customer-name').value.trim(),
+        phone: document.getElementById('customer-phone').value.trim().replace(/\s/g,''),
+        bookingDate: document.getElementById('booking-date').value,
+        bookingTime: selectedTime,
+        partySize: partySize,
+        note: document.getElementById('booking-note').value.trim()
+      };
+
+      try {
+        const reservation = await apiSaveReservation(data);
+
+        // Hiển thị giao diện thông báo tiếp nhận
+        document.getElementById('booking-form').style.display = 'none';
+        const successEl = document.getElementById('res-success');
+        successEl.classList.add('show');
+        document.getElementById('res-code').textContent = reservation.referenceCode;
+      } catch (err) {
+        console.error('Booking Error:', err);
+        const globalErr = document.getElementById('form-error-global');
+        const globalMsg = document.getElementById('form-error-msg');
+        
+        if (err.errors && Object.keys(err.errors).length > 0) {
+          const firstKey = Object.keys(err.errors)[0];
+          globalMsg.textContent = err.errors[firstKey];
+        } else {
+          globalMsg.textContent = err.message || 'Không thể kết nối đến máy chủ. Vui lòng thử lại sau.';
+        }
+        globalErr.classList.add('show');
+      } finally {
+        submitting = false;
+        document.getElementById('submit-text').style.display = '';
+        document.getElementById('submit-loading').style.display = 'none';
+        document.getElementById('submit-btn').disabled = false;
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('booking-form').style.display = '';
+      document.getElementById('res-success').classList.remove('show');
+      document.getElementById('booking-form').reset();
+      selectedTime = '';
+      partySize = 2;
+      updateParty();
+      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+      document.getElementById('booking-time').value = '';
+      document.getElementById('submit-text').style.display = '';
+      document.getElementById('submit-loading').style.display = 'none';
+      document.getElementById('submit-btn').disabled = false;
+      submitting = false;
+    }
+  </script>
+</body>
+</html>

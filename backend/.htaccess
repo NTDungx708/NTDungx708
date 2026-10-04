@@ -1,0 +1,11 @@
+# Chặn truy cập trực tiếp các file cấu hình / thư viện của backend.
+# Chỉ backend/api/*.php và backend/setup.php được gọi từ trình duyệt.
+<FilesMatch "^(config|config\.local|config\.example|db)\.php$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

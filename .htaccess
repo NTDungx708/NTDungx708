@@ -1,0 +1,24 @@
+# ONE × PIZZA — cấu hình Apache/LiteSpeed cho hosting
+
+Options -Indexes
+DirectoryIndex index.html index.php
+
+# Chuyển header Authorization cho PHP (hosting chạy PHP qua CGI/FastCGI hay làm mất header này)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# Không cho tải các file nội bộ (tài liệu, script Windows, SQL, khóa cài đặt)
+<FilesMatch "\.(md|bat|sql|lock|sqlite|log)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

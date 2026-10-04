@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ONE × PIZZA — Mỗi lát pizza, một cuộc hẹn</title>
+  <meta name="description"
+    content="One x Pizza — nhà hàng pizza thủ công, hiện đại, ấm cúng. Đặt bàn trải nghiệm không gian chia sẻ và những chiếc pizza được làm với đam mê thật sự.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <!-- Navigation injected by nav.js -->
+  <div id="nav-placeholder"></div>
+
+  <main class="page-main">
+
+    <!-- ═══ HERO ═══════════════════════════════════════════ -->
+    <section class="hero" id="hero" aria-label="Giới thiệu thương hiệu">
+      <div class="hero-bg" style="background-image:url('images/hero-pizza.png')"></div>
+      <div class="hero-overlay"></div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="section-label" style="color:rgba(255,255,255,.5);margin-bottom:20px">
+            <span style="background:rgba(255,255,255,.15);padding:4px 12px;border-radius:50px;letter-spacing:.1em">✦
+              PIZZA THỦ CÔNG</span>
+          </div>
+          <h1 class="hero-wordmark">ONE <span class="x">×</span><br>PIZZA</h1>
+          <p class="hero-tagline">Mỗi lát pizza, một cuộc hẹn.</p>
+          <p class="hero-sub">Pizza ngon hơn khi có nhau — từng chiếc bánh, từng lần, với đam mê thật sự.</p>
+          <div class="hero-actions">
+            <a href="thuc-don.html" class="btn btn-primary btn-lg" id="hero-cta-menu">
+              🍕 Xem thực đơn
+            </a>
+            <a href="dat-ban.html" class="btn btn-lg"
+              style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.25);backdrop-filter:blur(8px);"
+              id="hero-cta-book">
+              📅 Đặt bàn ngay
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span>CUỘN XUỐNG</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ═══ FEATURE STRIP ══════════════════════════════════ -->
+    <section class="section--sm" style="background:var(--cream)">
+      <div class="container">
+        <div class="feature-strip fade-up">
+          <div class="feature-item" style="background-image:url('images/space/restaurant-oven.jpg')">
+            <div class="feature-item__overlay"></div>
+            <div class="feature-item__content">
+              <span class="feature-icon">🔥</span>
+              <h3>Lò than truyền thống</h3>
+              <p>Bánh nướng ở 450°C trong 90 giây — vỏ giòn tan, nhân mềm mịn đúng chuẩn Napoli.</p>
+            </div>
+          </div>
+          <div class="feature-item" style="background-image:url('images/menu/pizza-vuon-xanh.jpg')">
+            <div class="feature-item__overlay"></div>
+            <div class="feature-item__content">
+              <span class="feature-icon">🌿</span>
+              <h3>Nguyên liệu tươi ngon</h3>
+              <p>Rau củ địa phương, phô mai nhập khẩu, bột ủ 48 giờ — chất lượng không thỏa hiệp.</p>
+            </div>
+          </div>
+          <div class="feature-item" style="background-image:url('images/space/restaurant-interior.jpg')">
+            <div class="feature-item__overlay"></div>
+            <div class="feature-item__content">
+              <span class="feature-icon">🤝</span>
+              <h3>Không gian chia sẻ</h3>
+              <p>Thiết kế ấm cúng, ánh sáng dịu, tiếng nhạc nhẹ — nơi gặp gỡ đáng nhớ.</p>
+            </div>
+          </div>
+          <div class="feature-item" style="background-image:url('images/menu/pizza-hoang-hon.jpg')">
+            <div class="feature-item__overlay"></div>
+            <div class="feature-item__content">
+              <span class="feature-icon">📅</span>
+              <h3>Đặt bàn dễ dàng</h3>
+              <p>Đặt trước trực tuyến, nhận mã xác nhận ngay — không lo chờ chỗ ngồi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ABOUT TEASER — Story Carousel ══════════════════ -->
+    <section class="section" id="about-teaser">
+      <!-- Dùng story-container riêng — KHÔNG dùng .container để thoát max-width 1200px -->
+      <div class="story-container">
+
+        <!-- Carousel wrapper -->
+        <div class="story-carousel-wrap fade-up">
+          <div class="story-carousel" id="story-carousel">
+
+            <!-- Slide 1: Khởi đầu -->
+            <article class="story-card">
+              <div class="story-card__img">
+                <img src="images/hero-pizza.png" alt="Pizza thủ công One x Pizza">
+              </div>
+              <div class="story-card__text">
+                <span class="section-label">Câu chuyện · 1/4</span>
+                <h2 class="heading-1" style="margin-bottom:16px">Chúng tôi làm pizza<br>
+                  <em style="color:var(--red);font-style:italic">bằng đam mê thật sự</em>
+                </h2>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:16px">
+                  One x Pizza ra đời từ niềm tin rằng một bữa ăn ngon nhất không phải ở nguyên liệu đắt tiền,
+                  mà ở những người ngồi cùng bàn. Mỗi công thức là câu chuyện riêng — kết hợp kỹ thuật Ý
+                  truyền thống và nguyên liệu địa phương tươi ngon nhất Việt Nam.
+                </p>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:28px">
+                  Đến với One x Pizza là đến với không gian ấm cúng, nơi thời gian chậm lại
+                  và mỗi lát pizza là một cuộc hẹn đáng nhớ.
+                </p>
+                <a href="gioi-thieu.html" class="btn btn-outline" id="about-cta">
+                  Khám phá câu chuyện →
+                </a>
+              </div>
+            </article>
+
+            <!-- Slide 2: Lò than -->
+            <article class="story-card">
+              <div class="story-card__img">
+                <img src="images/space/restaurant-oven.jpg" alt="Lò than truyền thống">
+              </div>
+              <div class="story-card__text">
+                <span class="section-label">Nghề thủ công · 2/4</span>
+                <h2 class="heading-1" style="margin-bottom:16px">Lò than 450°C —<br>
+                  <em style="color:var(--red);font-style:italic">linh hồn của bánh</em>
+                </h2>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:16px">
+                  Mỗi chiếc pizza được nướng trong đúng 90 giây ở nhiệt độ cực cao.
+                  Lửa thật, nhiệt thật — vỏ bánh giòn rụm từng lớp, nhân mềm mịn đúng chuẩn Napoli truyền thống.
+                </p>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:28px">
+                  Không lò điện, không cắt góc. Chúng tôi giữ nguyên phương pháp thủ công từ thế kỷ trước
+                  vì tin rằng đó là cách duy nhất để tạo ra một chiếc pizza thực sự hoàn hảo.
+                </p>
+                <a href="gioi-thieu.html" class="btn btn-outline">
+                  Tìm hiểu kỹ thuật →
+                </a>
+              </div>
+            </article>
+
+            <!-- Slide 3: Nguyên liệu -->
+            <article class="story-card">
+              <div class="story-card__img">
+                <img src="images/menu/pizza-vuon-xanh.jpg" alt="Nguyên liệu tươi ngon">
+              </div>
+              <div class="story-card__text">
+                <span class="section-label">Nguyên liệu · 3/4</span>
+                <h2 class="heading-1" style="margin-bottom:16px">Tươi từ vườn —<br>
+                  <em style="color:var(--red);font-style:italic">đến tận bàn ăn</em>
+                </h2>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:16px">
+                  Rau củ địa phương thu hoạch mỗi sáng, phô mai nhập khẩu chính hãng, bột ủ 48 giờ —
+                  chúng tôi không bao giờ thỏa hiệp về chất lượng nguyên liệu.
+                </p>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:28px">
+                  Mỗi topping được chọn lọc kỹ càng, mỗi công thức được kiểm tra hàng trăm lần
+                  trước khi có mặt trên thực đơn. Chất lượng là cam kết, không phải lời hứa.
+                </p>
+                <a href="thuc-don.html" class="btn btn-outline">
+                  Xem thực đơn →
+                </a>
+              </div>
+            </article>
+
+            <!-- Slide 4: Không gian -->
+            <article class="story-card">
+              <div class="story-card__img">
+                <img src="images/space/restaurant-interior.jpg" alt="Không gian nhà hàng">
+              </div>
+              <div class="story-card__text">
+                <span class="section-label">Không gian · 4/4</span>
+                <h2 class="heading-1" style="margin-bottom:16px">Nơi ký ức<br>
+                  <em style="color:var(--olive);font-style:italic">được tạo ra</em>
+                </h2>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:16px">
+                  Thiết kế nội thất ấm áp với gỗ sẫm, ánh đèn vàng dịu và góc nhìn ra phố —
+                  không gian lý tưởng cho buổi hẹn hò, họp nhóm bạn hay bữa tiệc gia đình.
+                </p>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:28px">
+                  Âm nhạc nhẹ nhàng, ghế ngồi thoải mái và đội ngũ phục vụ tận tâm —
+                  mỗi chi tiết tại One x Pizza đều được chăm chút để bữa ăn của bạn trở nên đáng nhớ.
+                </p>
+                <a href="gioi-thieu.html#space" class="btn btn-outline">
+                  Xem không gian →
+                </a>
+              </div>
+            </article>
+
+          </div><!-- /.story-carousel -->
+
+
+          <!-- Nav buttons -->
+          <button class="story-nav story-nav--prev" id="story-prev" aria-label="Trước">&#8592;</button>
+          <button class="story-nav story-nav--next" id="story-next" aria-label="Tiếp">&#8594;</button>
+        </div><!-- /.story-carousel-wrap -->
+
+        <!-- Dots -->
+        <div class="story-dots" id="story-dots">
+          <span class="story-dot active" data-idx="0"></span>
+          <span class="story-dot" data-idx="1"></span>
+          <span class="story-dot" data-idx="2"></span>
+          <span class="story-dot" data-idx="3"></span>
+        </div>
+      </div><!-- /.story-container -->
+
+      <script>
+        (function(){
+          const carousel = document.getElementById('story-carousel');
+          const dots = document.querySelectorAll('.story-dot');
+          const prev = document.getElementById('story-prev');
+          const next = document.getElementById('story-next');
+          let current = 0;
+          const total = 4;
+
+          function goTo(idx) {
+            current = (idx + total) % total;
+            const card = carousel.querySelectorAll('.story-card')[current];
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+          }
+
+          prev.addEventListener('click', () => goTo(current - 1));
+          next.addEventListener('click', () => goTo(current + 1));
+          dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
+
+          let scrollTimer;
+          carousel.addEventListener('scroll', () => {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+              const w = carousel.offsetWidth;
+              current = Math.round(carousel.scrollLeft / w);
+              dots.forEach((d, i) => d.classList.toggle('active', i === current));
+            }, 80);
+          });
+        })();
+      </script>
+    </section>
+
+
+    <!-- ═══ MENU TEASER ════════════════════════════════════ -->
+    <section class="section" style="background:var(--cream)" id="menu-teaser">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-label">Thực đơn</span>
+          <h2 class="heading-1">Lựa chọn của bạn hôm nay</h2>
+          <p>Từ pizza cổ điển đến những biến tấu độc đáo — luôn có điều gì đó mới để khám phá.</p>
+        </div>
+
+        <div class="menu-teaser-grid-5" id="menu-teaser-grid">
+        </div>
+
+        <div style="text-align:center;margin-top:40px" class="fade-up">
+          <a href="thuc-don.html" class="btn btn-primary btn-lg" id="menu-cta">
+            Xem toàn bộ thực đơn →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SPACE / EXPERIENCE ════════════════════════════ -->
+    <section class="section" id="space-teaser">
+      <div class="container">
+        <div class="teaser-block teaser-block--reverse fade-up">
+          <div class="teaser-block__text">
+            <span class="section-label">Không gian</span>
+            <h2 class="heading-1" style="margin-bottom:16px">Nơi ký ức<br><em
+                style="color:var(--olive);font-style:italic">được tạo ra</em></h2>
+            <p style="color:var(--text-muted);line-height:1.8;margin-bottom:16px">
+              Thiết kế nội thất ấm áp với gỗ sẫm, ánh đèn vàng dịu và góc nhìn ra phố —
+              không gian lý tưởng cho buổi hẹn hò, họp nhóm bạn hay bữa tiệc gia đình.
+            </p>
+            <div class="story-values">
+              <span class="value-pill">🕯️ Ấm cúng</span>
+              <span class="value-pill">🎵 Nhạc nhẹ</span>
+              <span class="value-pill">🌿 Xanh mát</span>
+              <span class="value-pill">📸 Check-in đẹp</span>
+            </div>
+            <div style="margin-top:24px">
+              <a href="gioi-thieu.html#space" class="btn btn-outline" id="space-cta">
+                Xem thêm về không gian →
+              </a>
+            </div>
+          </div>
+          <div class="teaser-block__visual" style="padding:0;overflow:hidden">
+            <img src="images/space/restaurant-interior.jpg" alt="Không gian nhà hàng One x Pizza"
+              style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg)">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ BOOKING TEASER ════════════════════════════════ -->
+    <section class="section" style="background:var(--dark)" id="booking-teaser">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-label" style="color:rgba(255,255,255,.45)">Đặt bàn</span>
+          <h2 class="heading-1" style="color:var(--white)">Giữ chỗ — đơn giản, nhanh chóng</h2>
+          <p style="color:rgba(255,255,255,.5)">
+            Ba bước đơn giản để đảm bảo buổi tối hoàn hảo của bạn tại One x Pizza.
+          </p>
+        </div>
+
+        <div class="steps fade-up" id="booking-steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <h3 style="color:var(--white)">Chọn ngày & giờ</h3>
+            <p>Chọn thời điểm phù hợp và số lượng khách đến dự.</p>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:var(--olive)">2</div>
+            <h3 style="color:var(--white)">Điền thông tin</h3>
+            <p>Họ tên, số điện thoại và ghi chú đặc biệt nếu cần.</p>
+          </div>
+          <div class="step">
+            <div class="step-num" style="background:#4A6B8A">3</div>
+            <h3 style="color:var(--white)">Nhận mã xác nhận</h3>
+            <p>Hệ thống ghi nhận yêu cầu, đội ngũ chúng tôi sẽ xác nhận sớm nhất.</p>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:48px" class="fade-up">
+          <a href="dat-ban.html" class="btn btn-primary btn-lg" id="booking-cta">
+            📅 Đặt bàn ngay
+          </a>
+          <p style="color:rgba(255,255,255,.35);margin-top:12px;font-size:.875rem">
+            Miễn phí, không cần tài khoản
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT STRIP ══════════════════════════════════ -->
+    <section class="section--sm" style="background:var(--cream)" id="contact-strip">
+      <div class="container">
+        <div class="contact-card-grid fade-up">
+          <div class="contact-card">
+            <div class="contact-card-icon">📍</div>
+            <h3>Địa chỉ</h3>
+            <p id="footer-address">Số 79 đường Hồ Tùng Mậu, thành phố Hà Nội (Khu vực Cầu Giấy / Mai Dịch cũ)</p>
+            <a href="gioi-thieu.html#map"
+              style="color:var(--red);font-size:.85rem;font-weight:600;display:block;margin-top:8px">Xem bản đồ →</a>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">🕐</div>
+            <h3>Giờ mở cửa</h3>
+            <p>Thứ 2–6: 10:00–22:00</p>
+            <p>T7–CN: 09:00–22:30</p>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-icon">📞</div>
+            <h3>Liên hệ</h3>
+            <a href="tel:0869564200">0869564200</a>
+            <a href="mailto:79hotungmau@gmail.com" style="display:block;margin-top:4px">79hotungmau@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    // ── Render menu teaser cards ────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+      const featured = MENU_ITEMS.filter(i => i.featured && i.available).slice(0, 5);
+      const grid = document.getElementById('menu-teaser-grid');
+      if (!grid) return;
+
+      const cards = featured.map((item, idx) => {
+        const cat = getCategoryById(item.categoryId);
+        const delay = idx > 0 ? ` delay-${idx}` : '';
+        return `
+          <article class="card menu-card fade-up${delay}" onclick="location.href='thuc-don.html'" style="cursor:pointer">
+            ${item.tag ? `<span class="menu-badge">${item.tag}</span>` : ''}
+            <div class="card-img">
+              <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+              <span style="display:none;font-size:4rem">${item.emoji}</span>
+            </div>
+            <div class="card-body">
+              <span class="menu-category-tag">${cat ? cat.name : ''}</span>
+              <h3 class="card-title">${item.name}</h3>
+              <p class="card-desc">${item.description.substring(0, 90)}…</p>
+              <div class="menu-card-footer">
+                <span class="card-price">${formatPrice(item.price)}</span>
+                <span style="color:var(--text-muted);font-size:.85rem">Xem thêm →</span>
+              </div>
+            </div>
+          </article>`;
+      }).join('');
+
+      grid.innerHTML = cards;
+      // Re-init scroll animations to observe newly injected cards
+      if (typeof initScrollAnimations === 'function') initScrollAnimations();
+      // Fallback: force-show cards already in viewport after paint
+      setTimeout(() => {
+        grid.querySelectorAll('.fade-up').forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight) el.classList.add('visible');
+        });
+      }, 100);
+    });
+  </script>
+</body>
+
+</html>
